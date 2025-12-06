@@ -1,5 +1,6 @@
 ---
-const baseUrl = import.meta.env.BASE_URL;
+// In dev mode, don't use base URL; in production, use it
+const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
 ---
 
 <section

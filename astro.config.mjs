@@ -8,5 +8,5 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   site: 'https://daevid-noface.github.io',
-  base: '/wilfred',
+  base: import.meta.env.PROD ? '/wilfred' : '/',
 });
