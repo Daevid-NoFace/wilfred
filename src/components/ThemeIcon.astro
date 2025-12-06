@@ -121,8 +121,8 @@ const props = Astro.props
     
     function updateIcons() {
       const isDark = document.documentElement.classList.contains('dark');
-      const sunIcons = document.querySelectorAll('.sun-icon');
-      const moonIcons = document.querySelectorAll('.moon-icon');
+      const sunIcons = document.querySelectorAll<HTMLElement>('.sun-icon');
+      const moonIcons = document.querySelectorAll<HTMLElement>('.moon-icon');
       
       sunIcons.forEach(icon => {
         if (isDark) {
