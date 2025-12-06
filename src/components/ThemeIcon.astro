@@ -54,7 +54,9 @@ const props = Astro.props
   }
 
   .front {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     border-radius: 8px;
     background: hsl(248, 53%, 58%);
@@ -101,16 +103,47 @@ const props = Astro.props
   <span class="shadow"></span>
   <span class="edge"></span>
   <span class="front">
-    <Icon name="radix-icons:sun" class="w-4 h-4 flex dark:hidden" />
-    <Icon name="radix-icons:moon" class="w-4 h-4 dark:flex hidden" />
-
+    <Icon name="radix-icons:sun" class="theme-icon sun-icon w-4 h-4 block dark:hidden" />
+    <Icon name="radix-icons:moon" class="theme-icon moon-icon w-4 h-4 hidden dark:block" />
+    <!-- <svg class="theme-icon sun-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
+      <path fill="currentColor" fill-rule="evenodd" d="M7.5 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5M2.197 2.197a.5.5 0 0 1 .707 0L4.318 3.61a.5.5 0 0 1-.707.707L2.197 2.904a.5.5 0 0 1 0-.707M.5 7a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm1.697 5.803a.5.5 0 0 1 0-.707l1.414-1.414a.5.5 0 1 1 .707.707l-1.414 1.414a.5.5 0 0 1-.707 0M12.5 7a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm-1.818-2.682a.5.5 0 0 1 0-.707l1.414-1.414a.5.5 0 1 1 .707.707L11.39 4.318a.5.5 0 0 1-.707 0M8 12.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0zm2.682-1.818a.5.5 0 0 1 .707 0l1.414 1.414a.5.5 0 1 1-.707.707l-1.414-1.414a.5.5 0 0 1 0-.707M5.5 7.5a2 2 0 1 1 4 0a2 2 0 0 1-4 0m2-3a3 3 0 1 0 0 6a3 3 0 0 0 0-6" clip-rule="evenodd"/>
+    </svg>
+    <svg class="theme-icon moon-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
+      <path fill="currentColor" fill-rule="evenodd" d="M2.9.5a.4.4 0 0 0-.8 0v.6h-.6a.4.4 0 1 0 0 .8h.6v.6a.4.4 0 1 0 .8 0v-.6h.6a.4.4 0 0 0 0-.8h-.6zm3 3a.4.4 0 1 0-.8 0v.6h-.6a.4.4 0 1 0 0 .8h.6v.6a.4.4 0 1 0 .8 0v-.6h.6a.4.4 0 0 0 0-.8h-.6zm-4 3a.4.4 0 1 0-.8 0v.6H.5a.4.4 0 1 0 0 .8h.6v.6a.4.4 0 0 0 .8 0v-.6h.6a.4.4 0 0 0 0-.8h-.6zM8.544.982l-.298-.04c-.213-.024-.34.224-.217.4A6.57 6.57 0 0 1 9.203 5.1a6.6 6.6 0 0 1-6.243 6.59c-.214.012-.333.264-.183.417a6.8 6.8 0 0 0 .21.206l.072.066l.26.226l.188.148q.121.091.246.172l.17.1q.262.147.536.259l.168.066q.29.105.593.182l.184.04q.45.082.92.082a6.93 6.93 0 0 0 6.555-4.716a6.95 6.95 0 0 0-3.542-8.022m-1.88 12.09c-.093-.008-.186-.018-.277-.03l-.252-.039l-.253-.046l-.243-.053c-1.872-.47-3.428-1.72-4.293-3.423c.418-.05.835-.124 1.247-.222a7.6 7.6 0 0 0 7.142-7.6q0-.33-.03-.656a5.95 5.95 0 0 1 .282 9.117a5.93 5.93 0 0 1-3.323.952" clip-rule="evenodd"/>
+    </svg> -->
   </span>
 </button>
 
 <script>
   // Add click handlers to theme toggle buttons
   document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.switch-theme-button'); 
+    const buttons = document.querySelectorAll('.switch-theme-button');
+    
+    function updateIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const sunIcons = document.querySelectorAll('.sun-icon');
+      const moonIcons = document.querySelectorAll('.moon-icon');
+      
+      sunIcons.forEach(icon => {
+        if (isDark) {
+          icon.style.display = 'none';
+        } else {
+          icon.style.display = 'block';
+        }
+      });
+      
+      moonIcons.forEach(icon => {
+        if (isDark) {
+          icon.style.display = 'block';
+        } else {
+          icon.style.display = 'none';
+        }
+      });
+    }
+    
+    // Update icons on page load
+    updateIcons();
+    
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
         const isDark = document.documentElement.classList.contains('dark');
@@ -121,6 +154,9 @@ const props = Astro.props
           document.documentElement.classList.add('dark');
           localStorage.setItem('theme', 'dark');
         }
+        
+        // Force icon update after theme change
+        setTimeout(updateIcons, 10);
       });
     });
   });

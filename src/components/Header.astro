@@ -9,19 +9,21 @@ import {
 import ThemeIcon from "./ThemeIcon.astro";
 ---
 
-<header class="lg:flex pt-2 px-4 sm:px-6 xl:px-0 md:pt-10 gap-5 w-full">
+<header class="lg:flex pt-8 px-4 sm:px-6 xl:px-0 md:pt-16 gap-5 w-full mb-10 lg:mb-28">
   <Astronav>
     <div class="flex w-full justify-between items-end border-b lg:border-none pb-4 lg:pb-0">
-      <a class="font-semibold text-xl flex gap-2 items-center group" href="/">Paint_wflx</a>
+      <a id="header-logo" class="font-semibold text-xl md:text-5xl flex gap-2 items-center group" href="/">
+        <span class="logo-text inline-block dark:text-neutral-300">Paint_wflx</span>
+      </a>
       <div class="lg:hidden flex items-center justify-center gap-4">
         <MenuIcon class="w-4 h-4 text-gray-800 dark:text-neutral-300" />
-		<ThemeIcon class="w-10" />
+		<ThemeIcon class="h-10" />
       </div>
     </div>
     <MenuItems class="hidden lg:flex">
       <ul class="flex flex-col lg:flex-row lg:gap-5 gap-3 mt-3 lg:mt-0  pb-4 lg:pb-0 border-b border-neutral-400 lg:border-b-0">
-        <li class="flex items-center"><a href="/about">About</a></li>
-        <li class="flex items-center"><a href="/art">Art</a></li>
+        <li class="flex items-center"><a href="/">About</a></li>
+        <li class="flex items-center"><a href="/">Art</a></li>
         <!-- <li class="flex items-center"><a href="/blog">Blog</a></li> -->
 		<!-- <li class="flex items-center"><a href="/tags">Tags</a></li> -->
 		  <ThemeIcon class="w-10 hidden lg:flex" />
@@ -29,3 +31,104 @@ import ThemeIcon from "./ThemeIcon.astro";
     </MenuItems>
   </Astronav>
 </header>
+
+<style>
+  #header-logo {
+    padding-top: 15px;
+    padding-bottom: 5px;
+  }
+
+  .logo-text {
+    display: inline-block;
+    background: linear-gradient(
+      90deg,
+      currentColor 0%,
+      currentColor 50%,
+      transparent 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.5s ease;
+  }
+
+  #header-logo:hover .logo-text {
+    background-position: 0 0;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const logo = document.getElementById("header-logo");
+    const logoText = document.querySelector(".logo-text");
+
+    if (logoText) {
+      // Split text into individual characters
+      const text = logoText.textContent || "";
+      logoText.innerHTML = text
+        .split("")
+        .map((char, i) => `<span class="char" style="display: inline-block;">${char === " " ? "&nbsp;" : char}</span>`)
+        .join("");
+
+      const chars = logoText.querySelectorAll(".char");
+
+      // Initial animation - characters appear one by one
+      gsap.fromTo(
+        chars,
+        {
+          opacity: 0,
+          y: -50,
+          rotationX: -90,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          duration: 0.8,
+          stagger: 0.05,
+          ease: "back.out(1.7)",
+          delay: 0.2,
+        }
+      );
+
+      // Continuous floating animation for each character
+      chars.forEach((char, index) => {
+        gsap.to(char, {
+          y: -3,
+          duration: 1.5 + (index * 0.1),
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: index * 0.1,
+        });
+      });
+
+      // Hover effect - wave animation
+      if (logo) {
+        logo.addEventListener("mouseenter", () => {
+          gsap.to(chars, {
+            y: -10,
+            color: "#6366f1",
+            duration: 0.3,
+            stagger: 0.03,
+            ease: "power2.out",
+            yoyo: true,
+            repeat: 1,
+          });
+        });
+
+        logo.addEventListener("mouseleave", () => {
+          gsap.to(chars, {
+            color: "",
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    }
+  });
+</script>
