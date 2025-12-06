@@ -1,3 +1,7 @@
+---
+const baseUrl = import.meta.env.BASE_URL;
+---
+
 <section
   id="hero"
   class="min-h-100 flex items-center justify-center py-12 md:py-20 transition-colors duration-300"
@@ -8,8 +12,8 @@
     <!-- Avatar y Título -->
     <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full">
       <img
-        src="/wilfred.jpg"
-        alt="Artistic inspiration"
+        src={`${baseUrl}/wilfred.jpg`}
+        alt="Wilfredo"
         class="hero-avatar w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full object-cover shadow-lg shrink-0"
       />
       <h1 class="hero-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl">
@@ -26,19 +30,19 @@
     <!-- Galería -->
     <div class="hero-gallery w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl">
       <img
-        src="/wilfred-hero.webp"
+        src={`${baseUrl}/wilfred-hero.webp`}
         alt="Art Void"
         data-index="0"
         class="hero-image w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity"
       />
       <img
-        src="/wilfred-hero2.webp"
+        src={`${baseUrl}/wilfred-hero2.webp`}
         alt="Art Void"
         data-index="1"
         class="hero-image w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity sm:col-span-2 md:col-span-1"
       />
       <img
-        src="/wilfred-hero3.webp"
+        src={`${baseUrl}/wilfred-hero3.webp`}
         alt="Art Void"
         data-index="2"
         class="hero-image w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity"
