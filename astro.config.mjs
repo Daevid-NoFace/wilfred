@@ -7,4 +7,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  site: 'https://daevid-noface.github.io',
+  base: '/wilfred',
 });
