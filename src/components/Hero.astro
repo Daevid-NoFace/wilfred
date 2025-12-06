@@ -1,39 +1,44 @@
 <section
   id="hero"
-  class="h-screen flex items-center justify-center mx-auto px-4 md:px-16 transition-colors duration-300"
+  class="min-h-screen flex items-center justify-center py-12 md:py-20 transition-colors duration-300"
 >
   <div
-    class="w-full max-w-4xl flex flex-col gap-6 md:gap-8 items-center text-center"
+    class="w-full max-w-5xl flex flex-col gap-8 md:gap-12 items-center px-4 sm:px-6"
   >
-    <div class="flex flex-col md:flex-row gap-4 md:gap-8 items-center w-full">
+    <!-- Avatar y Título -->
+    <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full">
       <img
         src="/wilfred.jpg"
         alt="Artistic inspiration"
-        class="hero-avatar w-32 h-32 md:w-40 md:h-40 rounded-full object-cover"
+        class="hero-avatar w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full object-cover shadow-lg shrink-0"
       />
-      <h1 class="hero-title text-center text-2xl md:text-5xl md:text-left w-full">
+      <h1 class="hero-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl">
         Hola, mi nombre es Wilfredo!
       </h1>
     </div>
-    <p class="hero-description w-full text-justify text-base md:text-lg">
+
+    <!-- Descripción -->
+    <p class="hero-description text-center md:text-justify text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl px-2">
       Bienvenidos a mi sitio web. Aquí encontrarás una colección de mis obras de arte
-    y proyectos personales. 
+      y proyectos personales.
     </p>
-    <div class="hero-gallery flex gap-4">
+
+    <!-- Galería -->
+    <div class="hero-gallery w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl">
       <img
         src="/wilfred-hero.webp"
         alt="Art Void"
-        class="hero-image w-75 h-full object-cover"
+        class="hero-image w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow-md"
       />
       <img
         src="/wilfred-hero2.webp"
         alt="Art Void"
-        class="hero-image w-75 h-full object-cover"
+        class="hero-image w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow-md"
       />
       <img
         src="/wilfred-hero3.webp"
         alt="Art Void"
-        class="hero-image w-89 h-full object-cover"
+        class="hero-image w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow-md sm:col-span-2 md:col-span-1"
       />
     </div>
   </div>
@@ -49,7 +54,7 @@
     gsap.set(".hero-description", { opacity: 0, y: 30 });
     gsap.set(".hero-image", { opacity: 0, y: 50, scale: 0.8 });
 
-    // Create timeline for sequential animations
+    // Create timeline for sequential entry animations
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
     // Animate avatar with rotation and scale
@@ -93,12 +98,55 @@
         "-=0.4"
       );
 
-    // Add hover effects to images
+    // Continuous floating animation for avatar
+    tl.add(() => {
+      gsap.to(".hero-avatar", {
+        y: -15,
+        duration: 2,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+    });
+
+    // Continuous subtle scale pulse for title
+    gsap.to(".hero-title", {
+      scale: 1.02,
+      duration: 3,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 1.5,
+    });
+
+    // Continuous gentle sway for description
+    gsap.to(".hero-description", {
+      x: 5,
+      duration: 4,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 2,
+    });
+
+    // Continuous floating animations for gallery images with different timings
     const images = document.querySelectorAll(".hero-image");
-    images.forEach((img) => {
+    images.forEach((img, index) => {
+      gsap.to(img, {
+        y: -10 - index * 3,
+        rotation: (index % 2 === 0 ? 2 : -2),
+        duration: 2.5 + index * 0.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        delay: 2 + index * 0.3,
+      });
+
+      // Add hover effects to images
       img.addEventListener("mouseenter", () => {
         gsap.to(img, {
-          scale: 1.05,
+          scale: 1.1,
+          rotation: 0,
           duration: 0.3,
           ease: "power2.out",
         });
@@ -107,20 +155,34 @@
       img.addEventListener("mouseleave", () => {
         gsap.to(img, {
           scale: 1,
+          rotation: (index % 2 === 0 ? 2 : -2),
           duration: 0.3,
           ease: "power2.out",
         });
       });
     });
 
-    // Add hover effect to avatar
+    // Enhanced hover effect for avatar with continuous rotation
     const avatar = document.querySelector(".hero-avatar");
     if (avatar) {
+      let isHovering = false;
+      
       avatar.addEventListener("mouseenter", () => {
+        isHovering = true;
         gsap.to(avatar, {
-          rotation: 360,
-          duration: 0.6,
+          scale: 1.1,
+          rotation: "+=360",
+          duration: 0.8,
           ease: "power2.inOut",
+        });
+      });
+
+      avatar.addEventListener("mouseleave", () => {
+        isHovering = false;
+        gsap.to(avatar, {
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
         });
       });
     }
