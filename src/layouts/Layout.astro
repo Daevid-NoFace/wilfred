@@ -1,5 +1,6 @@
 ---
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <!doctype html>
@@ -24,8 +25,11 @@ import Header from "../components/Header.astro";
 	</head>
 	<Header />
 	<body>
-		<slot />
+		<div>
+			<slot />
+		</div>
 	</body>
+	<Footer />
 </html>
 
 <style>
@@ -36,6 +40,12 @@ import Header from "../components/Header.astro";
 		width: 100%;
 		height: 100%;
 		padding: 0 1rem;
+	}
+
+	div {
+		display: grid;
+		min-height: 100dvh;
+		grid-template-rows: auto 1fr auto;
 	}
 
 	html {
