@@ -11,23 +11,25 @@ const baseUrl = import.meta.env.DEV ? "" : import.meta.env.BASE_URL;
     id="about"
     class="min-h-100 flex items-center justify-center py-12 md:py-20 transition-colors duration-300"
   >
-    <div class="w-full max-w-5xl flex flex-col gap-8 md:gap-12 items-center px-4 sm:px-6">
+    <div
+      class="w-full max-w-5xl flex flex-col gap-8 md:gap-12 items-center px-4 sm:px-6"
+    >
       <div
-        class="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full"
+        class="flex flex-col md:flex-row gap-6 md:gap-10 items-center md:justify-start w-full"
       >
         <img
           src={`${baseUrl}/wilfred.jpg`}
           alt="Wilfredo"
-          class="hero-avatar w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full object-cover shadow-lg shrink-0"
+          class="about-avatar w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full object-cover shadow-lg shrink-0"
         />
         <h1
-          class="hero-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl"
+          class="about-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl"
         >
           Sobre mí
         </h1>
       </div>
 
-      <div class="prose dark:prose-invert">
+      <div class="about-description prose dark:prose-invert">
         <p class="mb-4 text-justify">
           Soy un artista apasionado por el dibujo y la ilustración, inspirado
           por el mundo del anime, la animación y la pintura tradicional. Me
@@ -40,3 +42,67 @@ const baseUrl = import.meta.env.DEV ? "" : import.meta.env.BASE_URL;
     </div>
   </section>
 </Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  // Set initial states
+  gsap.set(".about-avatar", { opacity: 0, scale: 0.5, rotation: -180 });
+  gsap.set(".about-title", { opacity: 0, x: -50 });
+  gsap.set(".about-description", { opacity: 0, y: 30 });
+
+  // Create timeline for sequential entry animations
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+  // Animate avatar with rotation and scale
+  tl.to(".about-avatar", {
+      opacity: 1,
+      scale: 1,
+      rotation: 0,
+      duration: 1,
+      ease: "back.out(1.7)",
+    })
+      // Animate title
+      .to(".about-title", {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+      }, "-=0.5")
+      // Animate description
+      .to(".about-description", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+      }, "-=0.4")
+
+  // Continuous floating animation for avatar
+  tl.add(() => {
+    gsap.to(".about-avatar", {
+      y: -15,
+      duration: 2,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
+  });
+
+  // Continuous subtle scale pulse for title
+    gsap.to(".about-title", {
+      scale: 1.02,
+      duration: 3,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 1.5,
+    });
+
+    // Continuous gentle sway for description
+    gsap.to(".about-description", {
+      x: 5,
+      duration: 4,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 2,
+    });
+</script>

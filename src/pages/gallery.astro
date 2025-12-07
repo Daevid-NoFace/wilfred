@@ -1,0 +1,16 @@
+---
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+
+// In dev mode, don't use base URL; in production, use it
+const baseUrl = import.meta.env.DEV ? "" : import.meta.env.BASE_URL;
+---
+
+<Layout>
+  <section
+    id="gallery"
+    class="min-h-100 flex items-center justify-center py-12 md:py-20 transition-colors duration-300"
+  >
+    Aquí pondré mi galería en un futuro
+  </section>
+</Layout>

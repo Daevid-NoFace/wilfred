@@ -1,6 +1,8 @@
 ---
+import { gsap } from "gsap";
+
 // In dev mode, don't use base URL; in production, use it
-const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
+const baseUrl = import.meta.env.DEV ? "" : import.meta.env.BASE_URL;
 ---
 
 <section
@@ -11,25 +13,33 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
     class="w-full max-w-5xl flex flex-col gap-8 md:gap-12 items-center px-4 sm:px-6"
   >
     <!-- Avatar y Título -->
-    <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full">
+    <div
+      class="flex flex-col md:flex-row gap-6 md:gap-10 items-center md:justify-start w-full"
+    >
       <img
         src={`${baseUrl}/wilfred.jpg`}
         alt="Wilfredo"
         class="hero-avatar w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full object-cover shadow-lg shrink-0"
       />
-      <h1 class="hero-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl">
+      <h1
+        class="hero-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl"
+      >
         Hola, mi nombre es Wilfredo!
       </h1>
     </div>
 
     <!-- Descripción -->
-    <p class="hero-description text-center text-base sm:text-lg md:text-xl leading-relaxed max-w-5xl px-2">
-      Bienvenidos a mi sitio web. Aquí encontrarás una colección de mis obras de arte
-      y proyectos personales.
+    <p
+      class="hero-description text-center text-base sm:text-lg md:text-xl leading-relaxed max-w-5xl px-2"
+    >
+      Bienvenidos a mi sitio web. Aquí encontrarás una colección de mis obras de
+      arte y proyectos personales.
     </p>
 
     <!-- Galería -->
-    <div class="hero-gallery w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl">
+    <div
+      class="hero-gallery w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl"
+    >
       <img
         src={`${baseUrl}/wilfred-hero.webp`}
         alt="Art Void"
@@ -53,24 +63,46 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
 </section>
 
 <!-- Lightbox Modal -->
-<div id="lightbox" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden items-center justify-center">
-  <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl font-bold hover:text-gray-300 transition-colors z-10 w-12 h-12 flex items-center justify-center">
+<div
+  id="lightbox"
+  class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden items-center justify-center"
+>
+  <button
+    id="lightbox-close"
+    class="absolute top-4 right-4 text-white text-4xl font-bold hover:text-gray-300 transition-colors z-10 w-12 h-12 flex items-center justify-center"
+  >
     &times;
   </button>
-  
-  <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-5xl font-bold hover:text-gray-300 transition-colors z-10 w-16 h-16 flex items-center justify-center">
+
+  <button
+    id="lightbox-prev"
+    class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-5xl font-bold hover:text-gray-300 transition-colors z-10 w-16 h-16 flex items-center justify-center"
+  >
     ‹
   </button>
-  
-  <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl font-bold hover:text-gray-300 transition-colors z-10 w-16 h-16 flex items-center justify-center">
+
+  <button
+    id="lightbox-next"
+    class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl font-bold hover:text-gray-300 transition-colors z-10 w-16 h-16 flex items-center justify-center"
+  >
     ›
   </button>
-  
-  <div class="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center p-4">
-    <img id="lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
+
+  <div
+    class="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center p-4"
+  >
+    <img
+      id="lightbox-image"
+      src=""
+      alt=""
+      class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+    />
   </div>
-  
-  <div id="lightbox-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-lg font-medium">
+
+  <div
+    id="lightbox-counter"
+    class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-lg font-medium"
+  >
     <span id="current-index">1</span> / <span id="total-images">3</span>
   </div>
 </div>
@@ -161,11 +193,13 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
     });
 
     // Continuous floating animations for gallery images with different timings
-    const galleryImages = Array.from(document.querySelectorAll<HTMLImageElement>(".hero-image"));
+    const galleryImages = Array.from(
+      document.querySelectorAll<HTMLImageElement>(".hero-image")
+    );
     galleryImages.forEach((img, index: number) => {
       gsap.to(img, {
         y: -10 - index * 3,
-        rotation: (index % 2 === 0 ? 2 : -2),
+        rotation: index % 2 === 0 ? 2 : -2,
         duration: 2.5 + index * 0.5,
         ease: "sine.inOut",
         repeat: -1,
@@ -186,7 +220,7 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
       img.addEventListener("mouseleave", () => {
         gsap.to(img, {
           scale: 1,
-          rotation: (index % 2 === 0 ? 2 : -2),
+          rotation: index % 2 === 0 ? 2 : -2,
           duration: 0.3,
           ease: "power2.out",
         });
@@ -197,7 +231,7 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
     const avatar = document.querySelector(".hero-avatar");
     if (avatar) {
       let isHovering = false;
-      
+
       avatar.addEventListener("mouseenter", () => {
         isHovering = true;
         gsap.to(avatar, {
@@ -220,13 +254,15 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
 
     // Lightbox functionality
     const lightbox = document.getElementById("lightbox");
-    const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement;
+    const lightboxImage = document.getElementById(
+      "lightbox-image"
+    ) as HTMLImageElement;
     const lightboxClose = document.getElementById("lightbox-close");
     const lightboxPrev = document.getElementById("lightbox-prev");
     const lightboxNext = document.getElementById("lightbox-next");
     const currentIndexSpan = document.getElementById("current-index");
     const totalImagesSpan = document.getElementById("total-images");
-    
+
     let currentImageIndex = 0;
 
     // Update total images count
@@ -237,28 +273,30 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
     function openLightbox(index: number) {
       currentImageIndex = index;
       const img = galleryImages[index];
-      
+
       if (lightboxImage && img) {
         lightboxImage.src = img.src;
         lightboxImage.alt = img.alt;
       }
-      
+
       if (currentIndexSpan) {
         currentIndexSpan.textContent = (index + 1).toString();
       }
-      
+
       if (lightbox) {
         lightbox.classList.remove("hidden");
         lightbox.classList.add("flex");
         document.body.style.overflow = "hidden";
-        
+
         // Animate lightbox entrance
-        gsap.fromTo(lightbox, 
+        gsap.fromTo(
+          lightbox,
           { opacity: 0 },
           { opacity: 1, duration: 0.3, ease: "power2.out" }
         );
-        
-        gsap.fromTo(lightboxImage,
+
+        gsap.fromTo(
+          lightboxImage,
           { scale: 0.8, opacity: 0 },
           { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.2)" }
         );
@@ -275,7 +313,7 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
             lightbox.classList.add("hidden");
             lightbox.classList.remove("flex");
             document.body.style.overflow = "";
-          }
+          },
         });
       }
     }
@@ -288,9 +326,9 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
       } else {
         currentImageIndex = index;
       }
-      
+
       const img = galleryImages[currentImageIndex];
-      
+
       if (lightboxImage && img) {
         // Animate image transition
         gsap.to(lightboxImage, {
@@ -301,17 +339,17 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
           onComplete: () => {
             lightboxImage.src = img.src;
             lightboxImage.alt = img.alt;
-            
+
             gsap.to(lightboxImage, {
               opacity: 1,
               scale: 1,
               duration: 0.3,
-              ease: "back.out(1.2)"
+              ease: "back.out(1.2)",
             });
-          }
+          },
         });
       }
-      
+
       if (currentIndexSpan) {
         currentIndexSpan.textContent = (currentImageIndex + 1).toString();
       }
@@ -357,8 +395,8 @@ const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
     // Keyboard navigation
     document.addEventListener("keydown", (e) => {
       if (!lightbox || lightbox.classList.contains("hidden")) return;
-      
-      switch(e.key) {
+
+      switch (e.key) {
         case "Escape":
           closeLightbox();
           break;
