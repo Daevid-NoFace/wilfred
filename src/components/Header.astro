@@ -7,13 +7,16 @@ import {
   MenuIcon,
 } from "astro-navbar";
 import ThemeIcon from "./ThemeIcon.astro";
+
+// In dev mode, don't use base URL; in production, use it
+const baseUrl = import.meta.env.DEV ? '' : import.meta.env.BASE_URL;
 ---
 
 <header class="lg:flex pt-8 px-4 sm:px-6 xl:px-0 md:pt-16 gap-5 w-full mb-10 lg:mb-28">
   <Astronav>
     <div class="flex w-full justify-between items-end border-b lg:border-none pb-4 lg:pb-0">
       <a id="header-logo" class="font-semibold text-xl md:text-5xl flex gap-2 items-center group" href="/">
-        <span class="logo-text inline-block dark:text-neutral-300">Paint_wflx</span>
+        <span class="logo-text inline-block ">Paint_wflx</span>
       </a>
       <div class="lg:hidden flex items-center justify-center gap-4">
         <MenuIcon class="w-4 h-4 text-gray-800 dark:text-neutral-300" />
@@ -21,9 +24,9 @@ import ThemeIcon from "./ThemeIcon.astro";
       </div>
     </div>
     <MenuItems class="hidden lg:flex">
-      <ul class="flex flex-col lg:flex-row lg:gap-5 gap-3 mt-3 lg:mt-0  pb-4 lg:pb-0 border-b border-neutral-400 lg:border-b-0">
-        <li class="flex items-center"><a href="/">About</a></li>
-        <li class="flex items-center"><a href="/">Art</a></li>
+      <ul class="flex flex-col lg:flex-row lg:gap-5 gap-3 mt-3 lg:mt-0 pb-4 lg:pb-0 border-b lg:border-b-0">
+        <li class="flex items-center whitespace-nowrap"><a href=`${baseUrl}/about`>Sobre mí</a></li>
+        <li class="flex items-center whitespace-nowrap"><a href="/">Art</a></li>
         <!-- <li class="flex items-center"><a href="/blog">Blog</a></li> -->
 		<!-- <li class="flex items-center"><a href="/tags">Tags</a></li> -->
 		  <ThemeIcon class="w-10 hidden lg:flex" />
@@ -108,27 +111,27 @@ import ThemeIcon from "./ThemeIcon.astro";
       });
 
       // Hover effect - wave animation
-      if (logo) {
-        logo.addEventListener("mouseenter", () => {
-          gsap.to(chars, {
-            y: -10,
-            color: "#6366f1",
-            duration: 0.3,
-            stagger: 0.03,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1,
-          });
-        });
+      // if (logo) {
+      //   logo.addEventListener("mouseenter", () => {
+      //     gsap.to(chars, {
+      //       y: -10,
+      //       color: "#6366f1",
+      //       duration: 0.3,
+      //       stagger: 0.03,
+      //       ease: "power2.out",
+      //       yoyo: true,
+      //       repeat: 1,
+      //     });
+      //   });
 
-        logo.addEventListener("mouseleave", () => {
-          gsap.to(chars, {
-            color: "",
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        });
-      }
+      //   logo.addEventListener("mouseleave", () => {
+      //     gsap.to(chars, {
+      //       color: "",
+      //       duration: 0.3,
+      //       ease: "power2.out",
+      //     });
+      //   });
+      // }
     }
   });
 </script>

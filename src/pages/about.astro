@@ -1,0 +1,42 @@
+---
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+
+// In dev mode, don't use base URL; in production, use it
+const baseUrl = import.meta.env.DEV ? "" : import.meta.env.BASE_URL;
+---
+
+<Layout>
+  <section
+    id="about"
+    class="min-h-100 flex items-center justify-center py-12 md:py-20 transition-colors duration-300"
+  >
+    <div class="w-full max-w-5xl flex flex-col gap-8 md:gap-12 items-center px-4 sm:px-6">
+      <div
+        class="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full"
+      >
+        <img
+          src={`${baseUrl}/wilfred.jpg`}
+          alt="Wilfredo"
+          class="hero-avatar w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full object-cover shadow-lg shrink-0"
+        />
+        <h1
+          class="hero-title text-center md:text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-2xl"
+        >
+          Sobre mí
+        </h1>
+      </div>
+
+      <div class="prose dark:prose-invert">
+        <p class="mb-4 text-justify">
+          Soy un artista apasionado por el dibujo y la ilustración, inspirado
+          por el mundo del anime, la animación y la pintura tradicional. Me
+          encanta experimentar con estilos, colores y técnicas para dar vida a
+          personajes e ideas que me emocionan. Cada obra es un pequeño paso en
+          mi crecimiento artístico y una forma de compartir lo que imagino con
+          las demás personas. Bienvenido a mi mundo creativo.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
