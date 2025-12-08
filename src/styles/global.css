@@ -16,3 +16,46 @@ html {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.gallery-item-wrapper {
+  position: relative;
+}
+
+.rating-wrapper {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.gallery-item-wrapper:hover .rating-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rating-wrapper .rating-hearts {
+  display: flex;
+  align-items: center;
+}
+
+.rating-wrapper .heart {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #9ca3af; /* gray-400 */
+  padding: 0 0.1rem;
+}
+
+.rating-wrapper .heart.filled {
+  color: #fb7185; /* rose-400 */
+}
+
+.rating-wrapper .rating-average {
+  font-size: 0.875rem;
+  color: #6b7280; /* gray-500 */
+}

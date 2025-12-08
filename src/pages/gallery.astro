@@ -26,6 +26,8 @@ const data = [
     imageAlt: "Wilfred Hero 2",
   },
 ];
+
+const ratingScale = [1, 2, 3, 4, 5];
 ---
 
 <Layout>
@@ -46,6 +48,20 @@ const data = [
                 alt={item.imageAlt}
                 data-index={index}
               />
+              <div class="rating-wrapper" data-image-id={index}>
+                <div class="rating-hearts">
+                  {ratingScale.map((value) => (
+                    <button
+                      type="button"
+                      class="heart"
+                      data-value={value}
+                    >
+                      ♥
+                    </button>
+                  ))}
+                </div>
+                <span class="rating-average">0.0 (0)</span>
+              </div>
             </div>
           ))
         }
@@ -56,6 +72,109 @@ const data = [
 
 <script>
   import { gsap } from "gsap";
+
+  const RATING_API_URL = "/api/ratings.json";
+
+  type RatingSummary = {
+    [imageId: string]: {
+      average: number;
+      count: number;
+    };
+  };
+
+  function updateHeartVisual(
+    hearts: NodeListOf<HTMLButtonElement>,
+    value: number,
+  ) {
+    hearts.forEach((heart) => {
+      const heartValue = Number(heart.dataset.value);
+      if (heartValue <= value) {
+        heart.classList.add("filled");
+      } else {
+        heart.classList.remove("filled");
+      }
+    });
+  }
+
+  async function setupRatings() {
+    const wrappers = Array.from(
+      document.querySelectorAll<HTMLElement>(".rating-wrapper"),
+    );
+
+    // Load existing averages
+    try {
+      const res = await fetch(RATING_API_URL);
+      if (res.ok) {
+        const data = (await res.json()) as RatingSummary;
+
+        wrappers.forEach((wrapper) => {
+          const imageId = wrapper.dataset.imageId;
+          if (!imageId) return;
+
+          const avgSpan =
+            wrapper.querySelector<HTMLElement>(".rating-average");
+          const hearts =
+            wrapper.querySelectorAll<HTMLButtonElement>(".heart");
+
+          const info = data[imageId];
+          if (info && avgSpan) {
+            const avgRounded = info.average.toFixed(1);
+            avgSpan.textContent = `${avgRounded} (${info.count})`;
+            updateHeartVisual(hearts, Math.round(info.average));
+          } else if (avgSpan) {
+            avgSpan.textContent = "0.0 (0)";
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load ratings", error);
+    }
+
+    // Set up click handlers
+    wrappers.forEach((wrapper) => {
+      const imageId = wrapper.dataset.imageId;
+      if (!imageId) return;
+
+      const avgSpan =
+        wrapper.querySelector<HTMLElement>(".rating-average");
+      const hearts =
+        wrapper.querySelectorAll<HTMLButtonElement>(".heart");
+
+      hearts.forEach((heart) => {
+        heart.addEventListener("click", async (event) => {
+          event.preventDefault();
+          const ratingValue = Number(heart.dataset.value);
+          if (!ratingValue) return;
+
+          try {
+            const res = await fetch(RATING_API_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ imageId, rating: ratingValue }),
+            });
+
+            if (!res.ok) return;
+
+            const result = (await res.json()) as {
+              average: number;
+              count: number;
+            };
+
+            if (avgSpan) {
+              const avgRounded = result.average.toFixed(1);
+              avgSpan.textContent = `${avgRounded} (${result.count})`;
+            }
+
+            updateHeartVisual(hearts, Math.round(result.average));
+          } catch (error) {
+            console.error("Failed to submit rating", error);
+          }
+        });
+      });
+    });
+  }
 
   document.addEventListener("DOMContentLoaded", () => {
     // Set initial states for gallery images
@@ -108,5 +227,7 @@ const data = [
         });
       });
     });
+
+    void setupRatings();
   });
 </script>
