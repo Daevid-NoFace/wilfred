@@ -11,4 +11,5 @@ export default defineConfig({
   },
   site: 'https://daevid-noface.github.io',
   base: import.meta.env.PROD ? '/wilfred' : '/',
+  output: "static",
 });

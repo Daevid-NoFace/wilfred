@@ -2,8 +2,6 @@ import type { APIRoute } from "astro";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-export const prerender = false;
-
 const DATA_FILE = path.join(process.cwd(), "src", "data", "ratings.json");
 
 interface RatingStats {
