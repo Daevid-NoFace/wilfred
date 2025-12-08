@@ -56,7 +56,7 @@ export function FeaturedImageGallery() {
       <div>
         <img
           ref={mainImageRef}
-          className="h-[260px] w-full max-w-full rounded-lg object-cover object-center md:h-[600px]"
+          className="h-[550px] w-full max-w-full rounded-lg object-cover object-center"
           src={active}
           alt=""
         />
